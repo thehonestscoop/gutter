@@ -1,0 +1,42 @@
+{
+  "name": "@thehonestscoop/gutter",
+  "version": "0.1.0",
+  "description": "Gutter for articles, blogs and essays",
+  "main": "dist/gutter.es5.min.js",
+  "module": "dist/gutter.esm.min.js",
+  "scripts": {
+    "build": "NODE_ENV=production rollup -c",
+    "dev": "rollup -c",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thehonestscoop/gutter.git"
+  },
+  "author": "Prasanga Siripala <thehonestscoop@gmail.com>",
+  "license": "GNU LGPLv3 (personal and non-profit)",
+  "bugs": {
+    "url": "https://github.com/thehonestscoop/gutter/issues"
+  },
+  "homepage": "https://github.com/thehonestscoop/gutter#readme",
+  "files": [
+    "dist/gutter.es5.js",
+    "dist/gutter.es5.min.js",
+    "dist/gutter.esm.js",
+    "dist/gutter.esm.min.js"
+  ],
+  "devDependencies": {
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.2.3",
+    "babel-plugin-external-helpers": "^6.22.0",
+    "rollup": "^1.0.2",
+    "rollup-plugin-babel": "^4.2.0",
+    "rollup-plugin-babel-minify": "^6.2.0",
+    "rollup-plugin-commonjs": "^9.2.0",
+    "rollup-plugin-node-resolve": "^4.0.0",
+    "rollup-plugin-uglify": "^6.0.0"
+  },
+  "dependencies": {
+    "@thehonestscoop/findandreplacedomtext": "^0.4.7"
+  }
+}
