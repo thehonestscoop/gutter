@@ -162,6 +162,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 let onresizeTimer;
 window.onresize = () => {
+	// Since we are placing the canvas in document.body, when you resize the window, it leaves the
+	// canvas at the prior location until Render() is run. This has a bad effect so we Remove it.
+	RemoveCanvas()
 	if (onresizeTimer !== undefined) { clearTimeout(onresizeTimer) }
 	onresizeTimer = setTimeout(() => {
 		Render(document.getElementsByClassName("ths-gutter"))

@@ -2,7 +2,7 @@ import C from './constants.js';
 
 
 // CreateCanvas will create the initial canvas and place it on the left or right based on placement.
-// The canvas contains multiple strips
+// The canvas can contain multiple strips.
 function CreateCanvas(node, top, width, height, placement, margin) {
 
     let viewportPos = node.getBoundingClientRect()
@@ -15,14 +15,16 @@ function CreateCanvas(node, top, width, height, placement, margin) {
 	canv.style.top=top + 'px'
     if (placement === 'left') {
         canv.style.left = viewportPos.left + window.pageXOffset + 'px'
-        // canv.style.left=0 + 'px'
         canv.style.marginLeft = margin + 'px'
     } else {
         canv.style.left = viewportPos.right + window.pageXOffset - canv.width + 'px'
-        // canv.style.right=0 + 'px'
         canv.style.marginRight = margin + 'px'
     }
 	
+    // We have to place the canvas on the document because with absolute positioning, the 'top'
+    // value is based on the nearest positioned ancestor. This could mean document.body instead of
+    // the node that contains the 'ths-gutter' class.
+    // See: https://www.w3schools.com/css/css_positioning.asp
     document.body.appendChild(canv)
 
 	return canv
