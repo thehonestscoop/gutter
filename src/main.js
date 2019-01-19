@@ -121,6 +121,8 @@ function Render(gutterNodes) {
 
 		if (!gutter.debug) {
 			RemoveSpan(gNode, C.SENTENCE_CLASS, C.SENTENCE_END, C.SENTENCE_START)
+		} else {
+			console.log(gutter)
 		}
 	}
 }
@@ -131,11 +133,36 @@ function Render(gutterNodes) {
 
 
 // Automatically Execute
-Render(document.getElementsByClassName("ths-gutter"))
+
+document.addEventListener('DOMContentLoaded', () => {
+	
+	Render(document.getElementsByClassName("ths-gutter"))
+
+	// Render 500ms after DOM is ready
+	setTimeout(() => {
+		Render(document.getElementsByClassName("ths-gutter"))
+	}, 500)
+
+	// Rerender after each image finishes loading
+	let images = document.images
+	for(let i = 0; i < images.length; i++) {
+		images[i].addEventListener("load", () => {
+			Render(document.getElementsByClassName("ths-gutter"))
+		});
+	}
+
+	// Render after a fixed time as a last resort (after 5 seconds)
+	setTimeout(() => {
+		Render(document.getElementsByClassName("ths-gutter"))
+	}, 5000)
+
+});
+
+
 let onresizeTimer;
-window.onresize = function(){
+window.onresize = () => {
 	if (onresizeTimer !== undefined) { clearTimeout(onresizeTimer) }
-	onresizeTimer = setTimeout(function(){
+	onresizeTimer = setTimeout(() => {
 		Render(document.getElementsByClassName("ths-gutter"))
 		onresizeTimer = undefined
 	}, 50)
