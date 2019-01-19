@@ -741,8 +741,8 @@
     node.normalize();
   }
 
-  function RemoveCanvas(node) {
-    var canvases = node.getElementsByClassName(C.CANVAS_CLASS);
+  function RemoveCanvas() {
+    var canvases = document.body.getElementsByClassName(C.CANVAS_CLASS);
 
     for (var i = canvases.length - 1; i >= 0; i--) {
       var c = canvases[i];
@@ -1691,25 +1691,30 @@
     }
   }
 
-  // The canvas contains multiple strips
+  // The canvas can contain multiple strips.
 
   function CreateCanvas(node, top, width, height, placement, margin) {
+    var viewportPos = node.getBoundingClientRect();
     var canv = document.createElement('canvas');
     canv.height = height;
     canv.width = width;
     canv.classList.add(C.CANVAS_CLASS);
     canv.style.position = 'absolute';
-    canv.style.top = top;
+    canv.style.top = top + 'px';
 
     if (placement === 'left') {
-      canv.style.left = 0;
+      canv.style.left = viewportPos.left + window.pageXOffset + 'px';
       canv.style.marginLeft = margin + 'px';
     } else {
-      canv.style.right = 0;
+      canv.style.left = viewportPos.right + window.pageXOffset - canv.width + 'px';
       canv.style.marginRight = margin + 'px';
-    }
+    } // We have to place the canvas on the document because with absolute positioning, the 'top'
+    // value is based on the nearest positioned ancestor. This could mean document.body instead of
+    // the node that contains the 'ths-gutter' class.
+    // See: https://www.w3schools.com/css/css_positioning.asp
 
-    node.appendChild(canv);
+
+    document.body.appendChild(canv);
     return canv;
   }
 
@@ -1750,6 +1755,7 @@
   }
 
   function Render(gutterNodes) {
+    RemoveCanvas();
     var _iteratorNormalCompletion = true;
     var _didIteratorError = false;
     var _iteratorError = undefined;
@@ -1760,7 +1766,6 @@
         var gutter = new Gutter(gNode.dataset); // Clean up existing spans used to identify sentences (for resizing)
 
         RemoveSpan(gNode, C.SENTENCE_CLASS, C.SENTENCE_END, C.SENTENCE_START);
-        RemoveCanvas(gNode);
         ResetPadding(gNode, gutter.placement, gutter.tags.length * gutter.width + (gutter.tags.length - 1) * gutter.gap); // Shift text in node by adding padding
 
         ShiftPadding(gNode, gutter.placement, gutter.tags.length * gutter.width + (gutter.tags.length - 1) * gutter.gap); // Find sentences
@@ -1868,6 +1873,8 @@
 
         if (!gutter.debug) {
           RemoveSpan(gNode, C.SENTENCE_CLASS, C.SENTENCE_END, C.SENTENCE_START);
+        } else {
+          console.log(gutter);
         }
       }
     } catch (err) {
@@ -1890,10 +1897,33 @@
   // Automatically Execute
 
 
-  Render(document.getElementsByClassName("ths-gutter"));
+  document.addEventListener('DOMContentLoaded', function () {
+    Render(document.getElementsByClassName("ths-gutter")); // Render 500ms after DOM is ready
+
+    setTimeout(function () {
+      Render(document.getElementsByClassName("ths-gutter"));
+    }, 500); // Rerender after each image finishes loading
+
+    var images = document.images;
+
+    for (var i = 0; i < images.length; i++) {
+      images[i].addEventListener("load", function () {
+        Render(document.getElementsByClassName("ths-gutter"));
+      });
+    } // Render after a fixed time as a last resort (after 5 seconds)
+
+
+    setTimeout(function () {
+      Render(document.getElementsByClassName("ths-gutter"));
+    }, 5000);
+  });
   var onresizeTimer;
 
   window.onresize = function () {
+    // Since we are placing the canvas in document.body, when you resize the window, it leaves the
+    // canvas at the prior location until Render() is run. This has a bad effect so we Remove it.
+    RemoveCanvas();
+
     if (onresizeTimer !== undefined) {
       clearTimeout(onresizeTimer);
     }
