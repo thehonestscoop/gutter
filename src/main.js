@@ -7,6 +7,8 @@ import {CumulativeDistribution, CalculateFractionalS} from './math.js';
 import {CreateCanvas, AddGradient, CreateRectangles, ShiftPadding} from './draw.js';
 
 
+let refs = [];
+
 function Render(gutterNodes) {
 
 	RemoveCanvas()
@@ -17,10 +19,13 @@ function Render(gutterNodes) {
 
 		// Clean up existing spans used to identify sentences (for resizing)
 		RemoveSpan(gNode, C.SENTENCE_CLASS, C.SENTENCE_END, C.SENTENCE_START)
-		ResetPadding(gNode, gutter.placement, gutter.tags.length*gutter.width + (gutter.tags.length-1)*gutter.gap)
+		
+		if (refs.indexOf(gutterNodes) !== -1) {
+			ResetPadding(gNode, gutter.placement, gutter.tags.length*gutter.width + (gutter.tags.length-1)*gutter.gap + gutter.padding)
+		}
 
 		// Shift text in node by adding padding
-		ShiftPadding(gNode, gutter.placement, gutter.tags.length*gutter.width + (gutter.tags.length-1)*gutter.gap)
+		ShiftPadding(gNode, gutter.placement, gutter.tags.length*gutter.width + (gutter.tags.length-1)*gutter.gap + gutter.padding)
 
 		// Find sentences
 		FindSentences(gNode, gutter)
@@ -125,6 +130,10 @@ function Render(gutterNodes) {
 		} else {
 			console.log(gutter)
 		}
+	}
+
+	if (refs.indexOf(gutterNodes) === -1) {
+		refs.push(gutterNodes)
 	}
 }
 

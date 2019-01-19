@@ -399,6 +399,12 @@
         this.margin = parseFloat(dataset.margin);
       }
 
+      if (dataset.padding === undefined) {
+        this.padding = 0.0;
+      } else {
+        this.padding = parseFloat(dataset.padding);
+      }
+
       if (dataset.placement === undefined) {
         this.placement = 'left';
       } else {
@@ -1754,6 +1760,8 @@
     }
   }
 
+  var refs = [];
+
   function Render(gutterNodes) {
     RemoveCanvas();
     var _iteratorNormalCompletion = true;
@@ -1766,9 +1774,13 @@
         var gutter = new Gutter(gNode.dataset); // Clean up existing spans used to identify sentences (for resizing)
 
         RemoveSpan(gNode, C.SENTENCE_CLASS, C.SENTENCE_END, C.SENTENCE_START);
-        ResetPadding(gNode, gutter.placement, gutter.tags.length * gutter.width + (gutter.tags.length - 1) * gutter.gap); // Shift text in node by adding padding
 
-        ShiftPadding(gNode, gutter.placement, gutter.tags.length * gutter.width + (gutter.tags.length - 1) * gutter.gap); // Find sentences
+        if (refs.indexOf(gutterNodes) !== -1) {
+          ResetPadding(gNode, gutter.placement, gutter.tags.length * gutter.width + (gutter.tags.length - 1) * gutter.gap + gutter.padding);
+        } // Shift text in node by adding padding
+
+
+        ShiftPadding(gNode, gutter.placement, gutter.tags.length * gutter.width + (gutter.tags.length - 1) * gutter.gap + gutter.padding); // Find sentences
 
         FindSentences(gNode, gutter); // Create canvas for gutter
 
@@ -1890,6 +1902,10 @@
           throw _iteratorError;
         }
       }
+    }
+
+    if (refs.indexOf(gutterNodes) === -1) {
+      refs.push(gutterNodes);
     }
   } ///////////////////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////////////////

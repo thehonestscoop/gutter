@@ -36,6 +36,12 @@ class Gutter {
 		} else {
 			this.margin = parseFloat(dataset.margin);
 		}
+
+		if (dataset.padding === undefined) {
+			this.padding = 0.0;
+		} else {
+			this.padding = parseFloat(dataset.padding);
+		}
 		
 		if (dataset.placement === undefined) {
 			this.placement = 'left';
