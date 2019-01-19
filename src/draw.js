@@ -5,21 +5,25 @@ import C from './constants.js';
 // The canvas contains multiple strips
 function CreateCanvas(node, top, width, height, placement, margin) {
 
+    let viewportPos = node.getBoundingClientRect()
+
 	var canv = document.createElement('canvas');
 	canv.height = height;
 	canv.width = width;
 	canv.classList.add(C.CANVAS_CLASS);
 	canv.style.position='absolute'
-	canv.style.top=top
+	canv.style.top=top + 'px'
     if (placement === 'left') {
-        canv.style.left=0
+        canv.style.left = viewportPos.left + window.pageXOffset + 'px'
+        // canv.style.left=0 + 'px'
         canv.style.marginLeft = margin + 'px'
     } else {
-        canv.style.right=0
+        canv.style.left = viewportPos.right + window.pageXOffset - canv.width + 'px'
+        // canv.style.right=0 + 'px'
         canv.style.marginRight = margin + 'px'
     }
 	
-	node.appendChild(canv)
+    document.body.appendChild(canv)
 
 	return canv
 }

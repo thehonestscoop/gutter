@@ -9,13 +9,14 @@ import {CreateCanvas, AddGradient, CreateRectangles, ShiftPadding} from './draw.
 
 function Render(gutterNodes) {
 
+	RemoveCanvas()
+
 	for (let gNode of gutterNodes) {
 
 		let gutter = new Gutter(gNode.dataset)
 
 		// Clean up existing spans used to identify sentences (for resizing)
 		RemoveSpan(gNode, C.SENTENCE_CLASS, C.SENTENCE_END, C.SENTENCE_START)
-		RemoveCanvas(gNode)
 		ResetPadding(gNode, gutter.placement, gutter.tags.length*gutter.width + (gutter.tags.length-1)*gutter.gap)
 
 		// Shift text in node by adding padding

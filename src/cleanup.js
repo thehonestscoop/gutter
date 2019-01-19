@@ -23,8 +23,8 @@ function RemoveSpan(node, ...classNames) {
 
 }
 
-function RemoveCanvas(node) {
-	let canvases = node.getElementsByClassName(C.CANVAS_CLASS)
+function RemoveCanvas() {
+	let canvases = document.body.getElementsByClassName(C.CANVAS_CLASS)
 	for (var i=canvases.length-1; i>=0; i--) {
 		let c = canvases[i]
 
