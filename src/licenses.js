@@ -1,6 +1,6 @@
 /*!
 
-For personal projects and non-profit organizations:
+For personal projects, academic journals and non-profit organizations:
 
                    GNU LESSER GENERAL PUBLIC LICENSE
                        Version 3, 29 June 2007
