@@ -294,7 +294,7 @@
     }
 
     if (v >= 1 || v <= 0) {
-      throw "marker.v must be between 0 and 1";
+      throw "marker.spread.v must be between 0 and 1";
     }
 
     return -s * s / Math.log(v);
@@ -661,7 +661,7 @@
       } else {
         var parts = dataset.spread.split(",");
         var s = parseFloat(parts[0]);
-        var val = parseFloat(parts[1]);
+        var val = parts[1].endsWith('%') ? parseFloat(parts[1]) / 100.0 : parseFloat(parts[1]);
         this.spread = DetermineSpread(s, val);
       }
 

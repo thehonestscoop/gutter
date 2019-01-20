@@ -249,7 +249,7 @@ class Marker {
 		} else {
 			let parts = dataset.spread.split(",");
 			let s = parseFloat(parts[0])
-			let val = parseFloat(parts[1])
+			let val = parts[1].endsWith('%')?parseFloat(parts[1])/100.0:parseFloat(parts[1])
 			this.spread = DetermineSpread(s,val)  
 		}
 

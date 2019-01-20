@@ -8,7 +8,7 @@ function DetermineSpread(s, v) {
 		throw "marker.s must be > 0";
 	}
 	if ((v >= 1) || (v <= 0)) {
-		throw "marker.v must be between 0 and 1"
+		throw "marker.spread.v must be between 0 and 1"
 	}
 
 	return -s*s/Math.log(v)
