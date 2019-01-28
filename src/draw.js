@@ -30,7 +30,7 @@ function CreateCanvas(node, top, width, height, placement, margin) {
 	return canv
 }
 
-function AddGradient(canvas, shadeValues, resolution, tagIdx, width, gap, color, baseline) {
+function AddGradient(canvas, shadeValues, resolution, tagIdx, width, gap, color, baseline, merge) {
 
     // Convert color to rgb format
     // See: https://stackoverflow.com/questions/1573053/javascript-function-to-convert-color-names-to-hex-codes
@@ -50,10 +50,13 @@ function AddGradient(canvas, shadeValues, resolution, tagIdx, width, gap, color,
 
         var ctx = canvas.getContext("2d");
         ctx.lineWidth = 0;
-        ctx.fillStyle = colorConv(shadeVal) //'rgb(' + [255 * (1 - shadeVal), 255 * (1 - shadeVal), 255 * (1 - shadeVal)].join(',') + ')';
+        ctx.fillStyle = colorConv(shadeVal)
         
         let y = j * resolution
-        let x = width * tagIdx + gap * tagIdx
+        let x = 0.0
+        if (merge === false) {
+            x = width * tagIdx + gap * tagIdx
+        }
 
         ctx.fillRect(x, y, width, resolution);
     }

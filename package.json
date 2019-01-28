@@ -1,6 +1,6 @@
 {
   "name": "@thehonestscoop/gutter",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Gutter for articles, blogs and essays",
   "main": "dist/gutter.es5.min.js",
   "module": "dist/gutter.esm.min.js",
@@ -14,7 +14,7 @@
     "url": "https://github.com/thehonestscoop/gutter.git"
   },
   "author": "Prasanga Siripala <thehonestscoop@gmail.com>",
-  "license": "GNU LGPLv3 (personal and non-profit)",
+  "license": "GNU LGPLv3 (personal, academic journals and non-profit)",
   "bugs": {
     "url": "https://github.com/thehonestscoop/gutter/issues"
   },

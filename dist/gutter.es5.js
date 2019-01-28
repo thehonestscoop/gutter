@@ -6,7 +6,7 @@
 
   /*!
 
-  For personal projects and non-profit organizations:
+  For personal projects, academic journals and non-profit organizations:
 
                      GNU LESSER GENERAL PUBLIC LICENSE
                          Version 3, 29 June 2007
@@ -379,6 +379,12 @@
         if (this.resolution < 1) {
           throw "resolution must be greater than 1";
         }
+      }
+
+      if (dataset.merge === 'true') {
+        this.merge = true;
+      } else {
+        this.merge = false;
       }
 
       if (dataset.width === undefined) {
@@ -1412,7 +1418,8 @@
     latinLetters: "\\u0041-\\u005A\\u0061-\\u007A\\u00C0-\\u017F\\u0100-\\u01FF\\u0180-\\u027F"
   };
   var englishAbbreviations = ["al", "adj", "assn", "Ave", "BSc", "MSc", "Cell", "Ch", "Co", "cc", "Corp", "Dem", "Dept", "ed", "eg", "Eq", "Eqs", "est", "est", "etc", "Ex", "ext", // + number?
-  "Fig", "fig", "Figs", "figs", "i.e", "ie", "Inc", "inc", "Jan", "Feb", "Mar", "Apr", "Jun", "Jul", "Aug", "Sep", "Sept", "Oct", "Nov", "Dec", "jr", "mi", "Miss", "Mrs", "Mr", "Ms", "Mol", "mt", "mts", "no", "Nos", "PhD", "MD", "BA", "MA", "MM", "pl", "pop", "pp", "Prof", "Dr", "pt", "Ref", "Refs", "Rep", "repr", "rev", "Sec", "Secs", "Sgt", "Col", "Gen", "Rep", "Sen", 'Gov', "Lt", "Maj", "Capt", "St", "Sr", "sr", "Jr", "jr", "Rev", "Sun", "Mon", "Tu", "Tue", "Tues", "Wed", "Th", "Thu", "Thur", "Thurs", "Fri", "Sat", "trans", "Univ", "Viz", "Vol", "vs", "v"];
+  "Fig", "fig", "Figs", "figs", "i.e", "ie", "Inc", "I.Q", // Added by me
+  "inc", "Jan", "Feb", "Mar", "Apr", "Jun", "Jul", "Aug", "Sep", "Sept", "Oct", "Nov", "Dec", "jr", "mi", "Miss", "Mrs", "Mr", "Ms", "Mol", "mt", "mts", "no", "Nos", "PhD", "MD", "BA", "MA", "MM", "pl", "pop", "pp", "Prof", "Dr", "pt", "Ref", "Refs", "Rep", "repr", "rev", "Sec", "Secs", "Sgt", "Col", "Gen", "Rep", "Sen", 'Gov', "Lt", "Maj", "Capt", "St", "Sr", "sr", "Jr", "jr", "Rev", "Sun", "Mon", "Tu", "Tue", "Tues", "Wed", "Th", "Thu", "Thur", "Thurs", "Fri", "Sat", "trans", "Univ", "Viz", "Vol", "vs", "v"];
   var Reg = {
     abbreviations: new RegExp(),
     innerWordPeriod: new RegExp("[" + characterRanges.latinLetters + "]\\.[" + characterRanges.latinLetters + "]", "ig")
@@ -1724,7 +1731,7 @@
     return canv;
   }
 
-  function AddGradient(canvas, shadeValues, resolution, tagIdx, width, gap, color, baseline) {
+  function AddGradient(canvas, shadeValues, resolution, tagIdx, width, gap, color, baseline, merge) {
     // Convert color to rgb format
     // See: https://stackoverflow.com/questions/1573053/javascript-function-to-convert-color-names-to-hex-codes
     var d = document.createElement("zzz");
@@ -1742,10 +1749,14 @@
       shadeVal = Math.max(shadeVal - baseline, 0);
       var ctx = canvas.getContext("2d");
       ctx.lineWidth = 0;
-      ctx.fillStyle = colorConv(shadeVal); //'rgb(' + [255 * (1 - shadeVal), 255 * (1 - shadeVal), 255 * (1 - shadeVal)].join(',') + ')';
-
+      ctx.fillStyle = colorConv(shadeVal);
       var y = j * resolution;
-      var x = width * tagIdx + gap * tagIdx;
+      var x = 0.0;
+
+      if (merge === false) {
+        x = width * tagIdx + gap * tagIdx;
+      }
+
       ctx.fillRect(x, y, width, resolution);
     }
   }
@@ -1773,23 +1784,30 @@
         var gNode = _step.value;
         var gutter = new Gutter(gNode.dataset); // Clean up existing spans used to identify sentences (for resizing)
 
-        RemoveSpan(gNode, C.SENTENCE_CLASS, C.SENTENCE_END, C.SENTENCE_START);
+        RemoveSpan(gNode, C.SENTENCE_CLASS, C.SENTENCE_END, C.SENTENCE_START); // Calculate the gutter width
+
+        var gutterWidth = 0.0;
+
+        if (gutter.merge) {
+          gutterWidth = gutter.width;
+        } else {
+          gutterWidth = gutter.tags.length * gutter.width + (gutter.tags.length - 1) * gutter.gap;
+        }
 
         if (refs.indexOf(gutterNodes) !== -1) {
-          ResetPadding(gNode, gutter.placement, gutter.tags.length * gutter.width + (gutter.tags.length - 1) * gutter.gap + gutter.padding);
+          ResetPadding(gNode, gutter.placement, gutterWidth + gutter.padding);
         } // Shift text in node by adding padding
 
 
-        ShiftPadding(gNode, gutter.placement, gutter.tags.length * gutter.width + (gutter.tags.length - 1) * gutter.gap + gutter.padding); // Find sentences
+        ShiftPadding(gNode, gutter.placement, gutterWidth + gutter.padding); // Find sentences
 
         FindSentences(gNode, gutter); // Create canvas for gutter
 
         var canvas = void 0;
 
         if (gutter.sentences.length !== 0) {
-          var width = gutter.tags.length * gutter.width + (gutter.tags.length - 1) * gutter.gap;
           var height = gutter.sentences[gutter.sentences.length - 1].bottom - gutter.sentences[0].top;
-          canvas = CreateCanvas(gNode, gutter.sentences[0].top, width, height, gutter.placement, gutter.margin);
+          canvas = CreateCanvas(gNode, gutter.sentences[0].top, gutterWidth, height, gutter.placement, gutter.margin);
         } else {
           // No sentences. Draw empty canvas?
           RemoveSpan(gNode, C.SENTENCE_CLASS, C.SENTENCE_END, C.SENTENCE_START);
@@ -1880,7 +1898,7 @@
           } while (currentY <= maxY); // Draw gradient
 
 
-          AddGradient(canvas, shadeValues, gutter.resolution, tagIdx, gutter.width, gutter.gap, gutter.color[tagIdx], gutter.baseline[tagIdx]);
+          AddGradient(canvas, shadeValues, gutter.resolution, tagIdx, gutter.width, gutter.gap, gutter.merge ? gutter.color[0] : gutter.color[tagIdx], gutter.baseline[tagIdx], gutter.merge);
         }
 
         if (!gutter.debug) {

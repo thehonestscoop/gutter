@@ -19,13 +19,21 @@ function Render(gutterNodes) {
 
 		// Clean up existing spans used to identify sentences (for resizing)
 		RemoveSpan(gNode, C.SENTENCE_CLASS, C.SENTENCE_END, C.SENTENCE_START)
+
+		// Calculate the gutter width
+		let gutterWidth = 0.0
+		if (gutter.merge) {
+			gutterWidth = gutter.width
+		} else {
+			gutterWidth = gutter.tags.length*gutter.width + (gutter.tags.length-1)*gutter.gap
+		}
 		
 		if (refs.indexOf(gutterNodes) !== -1) {
-			ResetPadding(gNode, gutter.placement, gutter.tags.length*gutter.width + (gutter.tags.length-1)*gutter.gap + gutter.padding)
+			ResetPadding(gNode, gutter.placement, gutterWidth + gutter.padding)
 		}
 
 		// Shift text in node by adding padding
-		ShiftPadding(gNode, gutter.placement, gutter.tags.length*gutter.width + (gutter.tags.length-1)*gutter.gap + gutter.padding)
+		ShiftPadding(gNode, gutter.placement, gutterWidth + gutter.padding)
 
 		// Find sentences
 		FindSentences(gNode, gutter)
@@ -33,9 +41,8 @@ function Render(gutterNodes) {
 		// Create canvas for gutter
 		let canvas
 		if (gutter.sentences.length !== 0) {
-			let width = gutter.tags.length*gutter.width + (gutter.tags.length-1)*gutter.gap
 			let height = gutter.sentences[gutter.sentences.length-1].bottom - gutter.sentences[0].top
-			canvas = CreateCanvas(gNode, gutter.sentences[0].top, width, height, gutter.placement, gutter.margin)
+			canvas = CreateCanvas(gNode, gutter.sentences[0].top, gutterWidth, height, gutter.placement, gutter.margin)
 		} else {
 			// No sentences. Draw empty canvas?
 			RemoveSpan(gNode, C.SENTENCE_CLASS, C.SENTENCE_END, C.SENTENCE_START)
@@ -121,7 +128,7 @@ function Render(gutterNodes) {
 			} while (currentY <= maxY);
 
 			// Draw gradient
-			AddGradient(canvas, shadeValues, gutter.resolution, tagIdx, gutter.width, gutter.gap, gutter.color[tagIdx], gutter.baseline[tagIdx])
+			AddGradient(canvas, shadeValues, gutter.resolution, tagIdx, gutter.width, gutter.gap, (gutter.merge) ? gutter.color[0] : gutter.color[tagIdx], gutter.baseline[tagIdx], gutter.merge)
 
 		}
 

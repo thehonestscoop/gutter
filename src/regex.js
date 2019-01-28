@@ -35,6 +35,7 @@ let englishAbbreviations = [
     "i.e",
     "ie",
     "Inc",
+    "I.Q", // Added by me
     "inc",
     "Jan","Feb","Mar","Apr","Jun","Jul","Aug","Sep","Sept","Oct","Nov","Dec",
     "jr",

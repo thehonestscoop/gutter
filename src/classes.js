@@ -19,6 +19,12 @@ class Gutter {
 			}
 		}
 
+		if (dataset.merge === 'true') {
+			this.merge = true;
+		} else {
+			this.merge = false;
+		}
+
 		if (dataset.width === undefined) {
 			this.width = 2.5;
 		} else {
