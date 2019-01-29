@@ -2,7 +2,7 @@
 
 ![Screenshot](https://github.com/thehonestscoop/gutter/raw/master/gutter.gif)
 
-The Gutter is a sentence-aware marker for journalists and bloggers.
+The Gutter provides sentence-aware markers for journalists and bloggers.
 For full details of its usage, please refer to instructions and guidance found at [thehonestscoop.com](https://thehonestscoop.com).
 
 
