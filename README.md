@@ -29,7 +29,7 @@ For full details of its usage, please refer to instructions and guidance found a
 
 ## Bounty
 
-$30 USD on offer to help improve the sentence detection algorithm. [See here](https://thehonestscoop.com/docs/gutter/bounty/)
+$30 USD on offer to help further improve the sentence detection algorithm. [See here](https://thehonestscoop.com/docs/gutter/bounty/)
 
 ## License
 
