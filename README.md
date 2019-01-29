@@ -1,6 +1,6 @@
 # The Gutter for bloggers & journalists
 
-![Screenshot](https://github.com/thehonestscoop/gutter/raw/master/gutter.gif)
+![Screenshot](https://github.com/thehonestscoop/gutter/raw/master/image.gif)
 
 The Gutter provides sentence-aware markers for journalists and bloggers.
 For full details of its usage, please refer to instructions and guidance found at [thehonestscoop.com](https://thehonestscoop.com).
@@ -24,6 +24,8 @@ For full details of its usage, please refer to instructions and guidance found a
 [Documentation](https://thehonestscoop.com/docs/gutter)
 
 [Live Example](https://thehonestscoop.com/why/nyt)
+
+![Screenshot](https://github.com/thehonestscoop/gutter/raw/master/gutter.gif)
 
 ## Bounty
 
