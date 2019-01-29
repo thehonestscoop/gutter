@@ -1,6 +1,6 @@
 # The Gutter for bloggers & journalists
 
-![Screenshot](https://github.com/thehonestscoop/gutter/raw/master/gutter.gif "Screenshot" "Screenshot")
+![Screenshot](https://github.com/thehonestscoop/gutter/raw/master/gutter.gif)
 
 The Gutter is a sentence-aware marker for journalists and bloggers.
 For full details of its usage, please refer to instructions and guidance found at [thehonestscoop.com](https://thehonestscoop.com).
@@ -18,7 +18,7 @@ For full details of its usage, please refer to instructions and guidance found a
   - shading based on bell-curve
 * Responsive (reacts to size changes)
 * Advanced Sentence Detection Algorithm
-* [Hugo](gohugo.io) compatible
+* [Hugo](https://gohugo.io/) compatible
 * Easy to install & use
 
 [Documentation](https://thehonestscoop.com/docs/gutter)
