@@ -6,6 +6,8 @@
 
   /*!
 
+  © 2019 The Honest Scoop and P.J. Siripala. All rights reserved.
+
   For personal projects, academic journals and non-profit organizations:
 
                      GNU LESSER GENERAL PUBLIC LICENSE
