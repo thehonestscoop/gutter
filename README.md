@@ -4,6 +4,8 @@
 
 The Gutter provides sentence-aware markers for journalists, academics and bloggers. It can be placed to the left or right of your text and can mark a single sentence, or a range of sentences centered about a particular key sentence.
 
+It uses an advanced sentence-detection algorithm to place your markers in the correct position even after the user resizes their browser.
+
 For full details of its usage, please refer to instructions and guidance found at [thehonestscoop.com](https://thehonestscoop.com).
 
 
