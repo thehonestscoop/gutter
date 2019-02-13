@@ -1,6 +1,6 @@
 {
   "name": "@thehonestscoop/gutter",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Gutter for articles, blogs and essays",
   "main": "dist/gutter.es5.min.js",
   "module": "dist/gutter.esm.min.js",
